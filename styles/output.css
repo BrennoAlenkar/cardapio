@@ -710,6 +710,11 @@ video {
   margin-right: auto;
 }
 
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
 .mb-16 {
   margin-bottom: 4rem;
 }
@@ -879,6 +884,10 @@ video {
 
 .max-w-7xl {
   max-width: 80rem;
+}
+
+.max-w-7 {
+  max-width: 1.75rem;
 }
 
 .flex-shrink {
@@ -2023,6 +2032,11 @@ video {
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
+}
+
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .text-left {
