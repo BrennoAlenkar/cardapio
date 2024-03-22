@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Dev Burguer</title>
 </head>
@@ -225,8 +229,7 @@
                     <p class="text-sm">360ml</p>
                     <div class="flex items-center gap-2 justify-between mt-3">
                         <p class="font-bold text-lg">R$ 6.90</p>
-                        <button class="bg-gray-900 px-5 rounded add-to-cart-btn" data-name="Guaraná"
-                            data-price="6.90">
+                        <button class="bg-gray-900 px-5 rounded add-to-cart-btn" data-name="Guaraná" data-price="6.90">
 
                             <i class="fa-solid fa-cart-shopping text-lg text-white"></i>
                         </button>
@@ -282,7 +285,8 @@
             <p class="font-bold">Total: <span id="cart-total">0.00</span></p>
 
             <p class="font-bold mt-4">Endereço de entrega:</p>
-            <input type="text" name="" placeholder="Digite seu enderoço completo" id="address" class="w-full border-2 p-1 rounded my-2">
+            <input type="text" name="" placeholder="Digite seu enderoço completo" id="address"
+                class="w-full border-2 p-1 rounded my-2">
 
             <p class="text-red-500 hidden" id="address-warn">Digite seu Endereço completo!</p>
 
