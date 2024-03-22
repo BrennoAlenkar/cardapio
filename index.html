@@ -13,7 +13,7 @@
     <!--HEADER-->
     <header class="w-full h-[420px] bg-zinc-900 bg-home bg-cover bg-center">
         <div class="w-full h-full flex flex-col justify-center items-center">
-            <img src="assets/hamb-1.png" alt="Logo Hamburguer"
+            <img src="assets/logo-lifebox.jpg" alt="Logo Hamburguer"
                 class="w-32 h-32 rounded-full shadow-lg hover:scale-110 duration-200">
             <h1 class="text-3xl mt-4 mb-2 font-bold text-white">Dev-Burguer</h1>
 
@@ -273,7 +273,7 @@
     </div>
     <!-- FIM MENU-->
 
-    <div class="bg-black/60 w-full h-full fixed top-0 left-0 z-[99] flex items-center justify-center">
+    <div class="bg-black/60 w-full h-full fixed top-0 left-0 z-[99] items-center justify-center hidden">
         <div class="bg-white p-5 rounded-md min-w-[90%] md:min-w-[600px]">
             <h2 class="text-center font-bold text-2xl mb-2">Meu carrinho</h2>
 
@@ -284,13 +284,19 @@
             <p class="font-bold mt-4">Endereço de entrega:</p>
             <input type="text" name="" placeholder="Digite seu enderoço completo" id="address" class="w-full border-2 p-1 rounded my-2">
 
-            <p class="text-red-500" id="address-warn">Digite seu Endereço completo!</p>
+            <p class="text-red-500 hidden" id="address-warn">Digite seu Endereço completo!</p>
+
+            <div class="flex items-center justify-between mt-5 w-full">
+                <button id="close-modal-btn">Fechar</button>
+                <button id="checkout-btn" class="bg-green-500 text-white px-4 py-1 rounded">Finalizar pedido</button>
+            </div>
+
         </div>
     </div>
 
     <footer class="w-full bg-red-500 py-2 fixed bottom-0 z-40 flex items-center justify-center">
         <button class="flex items-center gap-2 text-white font-bold" id="card-btn">
-            (<span id="cart-count">2</span>)
+            (<span id="cart-count">0</span>)
             Veja meu carrinho
             <i class="fa-solid fa-cart-shopping text-lg text-white"></i>
         </button>
