@@ -9,27 +9,43 @@ const cardCounter = document.querySelector('#cart-count');
 const addressInput = document.querySelector('#address');
 const addressWarn = document.querySelector('#address-warn');
 
-cardBtn.addEventListener('click', function(){
+let card = [];
+
+cardBtn.addEventListener('click', function () {
     cardModal.style.display = 'flex';
 })
 
-cardModal.addEventListener('click', function(event){
-    if(event.target === cardModal) {
+cardModal.addEventListener('click', function (event) {
+    if (event.target === cardModal) {
         cardModal.style.display = 'none'
     }
 })
 
-closeModalBtn.addEventListener('click', function(){
+closeModalBtn.addEventListener('click', function () {
     cardModal.style.display = 'none'
 })
 
-menu.addEventListener('click', function(event){
+menu.addEventListener('click', function (event) {
     let parentButton = event.target.closest('.add-to-card-btn')
 
-    if(parentButton) {
+    if (parentButton) {
         const name = parentButton.getAttribute("data-name")
-        const price = parentButton.getAttribute("data-price")
+        const price = parseFloat(parentButton.getAttribute("data-price"))
+        addToCard(name,price)
+
     }
 })
 
-62 98101-2014
+function addToCard(name, price) {
+    const existeItem = card.find(item => item.name === name)
+
+    if (existeItem) {
+        existeItem.quantidade += 1;
+        return;
+    }
+    card.push({
+        name,
+        price,
+        quantidade: 1,
+    })
+}
