@@ -128,11 +128,11 @@ addressInput.addEventListener("input", function (event) {
 
 checkoutBtn.addEventListener("click", function () {
 
-    // const isOpen = checkAberto();
-    //if(!isOpen) {
-    //    alert("RESTAURANTE FECHADO NO MOMENTO!")
-    //      return;
-    // }
+    const isOpen = checkAberto();
+    if (!isOpen) {
+        alert("RESTAURANTE FECHADO NO MOMENTO!")
+        return;
+    }
 
     if (cart.length === 0) return;
     if (addressInput.value === "") {
