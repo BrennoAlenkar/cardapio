@@ -100,47 +100,57 @@ cartItemsContainer.addEventListener('click', function (event) {
 function removeItemCart(name) {
     const index = cart.findIndex(item => item.name === name)
 
-    if(index !== -1) {
-       const item = cart[index]; 
+    if (index !== -1) {
+        const item = cart[index];
 
-       if(item.quantidade >1) {
-        item.quantidade -= 1;
+        if (item.quantidade > 1) {
+            item.quantidade -= 1;
+            updateCartModal()
+            return;
+        }
+
+        cart.splice(index, 1);
         updateCartModal()
-        return;
-       }
-
-       cart.splice(index, 1);
-       updateCartModal()
     }
 
 }
 
 
-addressInput.addEventListener("input", function(event) {
+addressInput.addEventListener("input", function (event) {
     let inputValue = event.target.value;
 
-    if(inputValue !== "") {
+    if (inputValue !== "") {
         addressInput.classList.remove("border-red-500")
         addressWarn.classList.add("hidden")
     }
 
 })
 
-checkoutBtn.addEventListener("click", function(){
+checkoutBtn.addEventListener("click", function () {
 
-    const isOpen = checkAberto();
-    if(!isOpen) {
-        alert("RESTAURANTE FECHADO NO MOMENTO!")
-        return;
-    }
+    // const isOpen = checkAberto();
+    //if(!isOpen) {
+    //    alert("RESTAURANTE FECHADO NO MOMENTO!")
+    //      return;
+    // }
 
-    if(cart.length === 0) return;
-    if(addressInput.value === "") {
+    if (cart.length === 0) return;
+    if (addressInput.value === "") {
         addressWarn.classList.remove("hidden")
         addressInput.classList.add("border-red-500")
         return;
     }
 
+    const cartItems = cart.map((item) => {
+        return (
+            `${item.name} Quantidade: (${item.quantidade}) Preço: R$${item.price}
+        |`)
+    }).join("")
+
+    const msg = encodeURIComponent(cartItems)
+    const phone = "62993002421"
+
+    window.open(`https://wa.me/${phone}?text=${msg} Endereço: ${addressInput.value}`, "_blank")
 })
 
 function checkAberto() {
@@ -154,11 +164,11 @@ const spanItem = document.querySelector("#date-span")
 const isOpen = checkAberto();
 
 
-if(isOpen){
+if (isOpen) {
     spanItem.classList.remove("bg-red-500");
     spanItem.classList.add("bg-green-600")
 } else {
     spanItem.classList.remove("bg-green-600")
     spanItem.classList.add("bg-red-500")
-    
+
 }
