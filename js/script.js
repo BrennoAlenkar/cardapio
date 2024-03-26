@@ -143,14 +143,16 @@ checkoutBtn.addEventListener("click", function () {
 
     const cartItems = cart.map((item) => {
         return (
-            `${item.name} Quantidade: (${item.quantidade}) Preço: R$${item.price}
-        |`)
+            ` ${item.name} Quantidade: (${item.quantidade}) Preço: R$${item.price}|`)
     }).join("")
 
     const msg = encodeURIComponent(cartItems)
     const phone = "62993002421"
 
     window.open(`https://wa.me/${phone}?text=${msg} Endereço: ${addressInput.value}`, "_blank")
+
+    cart = [];
+    updateCartModal();
 })
 
 function checkAberto() {
