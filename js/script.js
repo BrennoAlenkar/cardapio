@@ -166,12 +166,6 @@ checkoutBtn.addEventListener("click", function () {
     updateCartModal();
 })
 
-function checkAberto() {
-    const data = new Date();
-    const hora = data.getHours();
-    return hora >= 23 && hora > 5;
-
-}
 
 const spanItem = document.querySelector("#date-span")
 const isOpen = checkAberto();
