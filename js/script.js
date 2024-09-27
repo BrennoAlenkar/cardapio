@@ -169,10 +169,10 @@ checkoutBtn.addEventListener("click", function () {
 });
 
 function checkAberto() {
-    const data = new Date();
-    const hora = data.getHours();
-    return hora >= 18 && hora <= 23; // Correção aqui
+    const hora = 18; // Definindo a hora como 18
+    return hora >= 18 && hora <= 23; // Aberto entre 18h e 23h
 }
+
 
 const spanItem = document.querySelector("#date-span");
 const isOpen = checkAberto();
