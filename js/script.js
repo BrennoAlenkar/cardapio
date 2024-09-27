@@ -184,3 +184,4 @@ if (isOpen) {
     spanItem.classList.remove("bg-green-600");
     spanItem.classList.add("bg-red-500");
 }
+
