@@ -169,8 +169,8 @@ checkoutBtn.addEventListener("click", function () {
 });
 
 function checkAberto() {
-    const hora = 18; // Definindo a hora como 18
-    return hora >= 18 && hora <= 23; // Aberto entre 18h e 23h
+    const hora = 18; // Definindo a hora como 18hrs
+    return hora >= 18 && hora <= 23; // Aberto entre 18h e 23hrs
 }
 
 
