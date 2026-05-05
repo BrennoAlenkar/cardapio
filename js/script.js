@@ -11,177 +11,94 @@ const addressWarn = document.querySelector('#address-warn');
 
 let cart = [];
 
-cartBtn.addEventListener('click', function () {
-    cartModal.style.display = 'flex';
-    updateCartModal();
-});
+// Funções de Modal
+cartBtn.addEventListener('click', () => { cartModal.style.display = 'flex'; updateCartModal(); });
+cartModal.addEventListener('click', (e) => { if(e.target === cartModal) cartModal.style.display = 'none'; });
+closeModalBtn.addEventListener('click', () => { cartModal.style.display = 'none'; });
 
-cartModal.addEventListener('click', function (event) {
-    if (event.target === cartModal) {
-        cartModal.style.display = 'none';
-    }
-});
-
-closeModalBtn.addEventListener('click', function () {
-    cartModal.style.display = 'none';
-});
-
-menu.addEventListener('click', function (event) {
+// Adicionar ao Carrinho
+menu.addEventListener('click', (event) => {
     let parentButton = event.target.closest('.add-to-cart-btn');
-
     if (parentButton) {
-        const name = parentButton.getAttribute("data-name");
-        const price = parseFloat(parentButton.getAttribute("data-price"));
-        addToCart(name, price);
+        addToCart(parentButton.getAttribute("data-name"), parseFloat(parentButton.getAttribute("data-price")));
     }
 });
 
 function addToCart(name, price) {
-    const existeItem = cart.find(item => item.name === name);
-
-    if (existeItem) {
-        existeItem.quantidade += 1;
+    const existingItem = cart.find(item => item.name === name);
+    if (existingItem) {
+        existingItem.quantidade += 1;
     } else {
-        cart.push({
-            name,
-            price,
-            quantidade: 1,
-        });
+        cart.push({ name, price, quantidade: 1 });
     }
-
     updateCartModal();
 }
 
+// Atualizar Modal
 function updateCartModal() {
     cartItemsContainer.innerHTML = '';
     let total = 0;
 
     cart.forEach(item => {
         const cartItemElement = document.createElement("div");
-        cartItemElement.classList.add("flex", "justify-between", "mb-4", "flex-col");
+        cartItemElement.className = "flex justify-between mb-4 flex-col";
         cartItemElement.innerHTML = `
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="font-medium">${item.name}</p>
-                <p>Quantidade: ${item.quantidade}</p>
-                <p class="font-medium mt-2">R$${item.price.toFixed(2)}</p>
-            </div>
-            <button class="remover-btn" data-name="${item.name}">
-                Remover
-            </button>
-        </div>
-        `;
-
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="font-medium">${item.name}</p>
+                    <p>Qtd: ${item.quantidade}</p>
+                    <p class="font-medium mt-2">R$ ${(item.price * item.quantidade).toFixed(2)}</p>
+                </div>
+                <button class="remover-btn text-red-500" data-name="${item.name}">Remover</button>
+            </div>`;
         total += item.price * item.quantidade;
-
         cartItemsContainer.appendChild(cartItemElement);
     });
 
-    cartTotal.textContent = total.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-    });
-
-    cartCounter.innerHTML = cart.reduce((sum, item) => sum + item.quantidade, 0); // Atualização do contador
+    cartTotal.textContent = total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    cartCounter.innerText = cart.reduce((acc, item) => acc + item.quantidade, 0);
 }
 
-cartItemsContainer.addEventListener('click', function (event) {
-    if (event.target.classList.contains("remover-btn")) {
-        const name = event.target.getAttribute("data-name");
-        removeItemCart(name);
-    }
-});
-
-function removeItemCart(name) {
-    const index = cart.findIndex(item => item.name === name);
-
-    if (index !== -1) {
-        const item = cart[index];
-
-        if (item.quantidade > 1) {
-            item.quantidade -= 1;
-            updateCartModal();
-            return;
+// Remover Item
+cartItemsContainer.addEventListener('click', (e) => {
+    if (e.target.classList.contains("remover-btn")) {
+        const name = e.target.getAttribute("data-name");
+        const index = cart.findIndex(item => item.name === name);
+        if (cart[index].quantidade > 1) {
+            cart[index].quantidade -= 1;
+        } else {
+            cart.splice(index, 1);
         }
-
-        cart.splice(index, 1);
         updateCartModal();
     }
-}
-
-addressInput.addEventListener("input", function (event) {
-    let inputValue = event.target.value;
-
-    if (inputValue !== "") {
-        addressInput.classList.remove("border-red-500");
-        addressWarn.classList.add("hidden");
-    }
 });
 
-checkoutBtn.addEventListener("click", function () {
-    const isOpen = checkAberto();
-    if (!isOpen) {
-        Toastify({
-            text: "Ops, restaurante fechado no momento!",
-            duration: 3000,
-            close: true,
-            gravity: "top",
-            position: "right",
-            stopOnFocus: true,
-            style: {
-                background: "#CC0000",
-            },
-        }).showToast();
+// Finalizar Pedido
+checkoutBtn.addEventListener("click", () => {
+    if (!checkAberto()) {
+        Toastify({ text: "Restaurante fechado!", duration: 3000, style: { background: "#EF4444" } }).showToast();
         return;
     }
-
     if (cart.length === 0) return;
     if (addressInput.value === "") {
         addressWarn.classList.remove("hidden");
-        addressInput.classList.add("border-red-500");
         return;
     }
 
-    const cartItems = cart.map((item) => {
-        return ` ${item.name} Quantidade: (${item.quantidade}) Preço: R$${item.price.toFixed(2)}|`;
-    }).join("");
-
-    const msg = encodeURIComponent(cartItems);
-    const phone = "62993002421";
-
-    window.open(`https://wa.me/${phone}?text=${msg} Endereço: ${addressInput.value}`, "_blank");
-
-    // Notificar sucesso
-    Toastify({
-        text: "Pedido enviado com sucesso!",
-        duration: 3000,
-        close: true,
-        gravity: "top",
-        position: "right",
-        stopOnFocus: true,
-        style: {
-            background: "#4caf50",
-        },
-    }).showToast();
-
+    const msg = cart.map(i => `${i.name} (Qtd: ${i.quantidade})`).join(" | ");
+    window.open(`https://wa.me/5562993002421?text=${encodeURIComponent(msg)} Endereço: ${addressInput.value}`, "_blank");
     cart = [];
     updateCartModal();
+    cartModal.style.display = 'none';
 });
 
+// Validação de Horário
 function checkAberto() {
-    const hora = 18; // Definindo a hora como 18hrs
-    return hora >= 18 && hora <= 23; // Aberto entre 18h e 23hrs
+    const hora = new Date().getHours();
+    return hora >= 18 && hora < 23;
 }
-
 
 const spanItem = document.querySelector("#date-span");
-const isOpen = checkAberto();
-
-if (isOpen) {
-    spanItem.classList.remove("bg-red-500");
-    spanItem.classList.add("bg-green-600");
-} else {
-    spanItem.classList.remove("bg-green-600");
-    spanItem.classList.add("bg-red-500");
+if (checkAberto()) {
+    spanItem.classList.replace("bg-red-500", "bg-green-600");
 }
-
